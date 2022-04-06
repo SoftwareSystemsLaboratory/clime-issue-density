@@ -1,7 +1,7 @@
 from argparse import ArgumentParser, Namespace
 
 name: str = "CLIME"
-authors: list = ["Nicholas M. Synovic", "Matthew Hyatt", "George K. Thiruvathukal"]
+authors: list = ["Nicholas M. Synovic", "Matthew Hyatt", "Sohini Thota", "George K. Thiruvathukal"]
 
 
 def getArgs() -> Namespace:
