@@ -1,28 +1,39 @@
 from argparse import Namespace
-from datetime import datetime, tzinfo
+from datetime import datetime
 
 import numpy as np
 import pandas as pd
 from dateutil.parser import parse
 from intervaltree import IntervalTree
 from pandas import DataFrame
+from dateutil.parser import parse as dateParse
+from args import getArgs
 
-from ssl_metrics_github_issue_density.args import getArgs
 
-
-def getIssueTimelineIntervals(day0: datetime, dayN: datetime, issues: DataFrame):
-
+def getIssueTimelineIntervals(day0: datetime, dayN: datetime, issues: DataFrame)    -> list:
     intervals = []
 
-    startDate: datetime
-    endDate: datetime
-    for startDate, endDate in zip(issues["created_at"], issues["closed_at"]):
-        start = (startDate.replace(tzinfo=None) - day0).days
-        end = (endDate.replace(tzinfo=None) - day0).days
+    foo: str
+    bar: str
+    for foo, bar in zip(issues["created_at"], issues["closed_at"]):
+        try:
+            startDate: datetime = dateParse(foo)
+        except TypeError:
+            startDate: datetime = foo
 
-        intervals.append((start, end))
+        try:
+            endDate: datetime = dateParse(bar)
+        except TypeError:
+            endDate: datetime = bar
 
-    print(type(intervals))
+        startDate.replace(tzinfo=None)
+        endDate.replace(tzinfo=None)
+
+        startDaySince0 = (startDate.replace(tzinfo=None) - day0).days
+        endDaySince0 = (endDate.replace(tzinfo=None) - day0).days
+
+        intervals.append((startDaySince0, endDaySince0))
+
     return intervals
 
 
@@ -76,16 +87,16 @@ def main():
     args: Namespace = getArgs()
 
     commits: DataFrame = pd.read_json(args.commits)
-    issues: DataFrame = pd.read_json(args.issues)
+    issues: DataFrame = pd.read_json(args.issues).T
 
-    day0: datetime = issues["created_at"][0].replace(tzinfo=None)
+    day0: datetime = dateParse(issues["created_at"][0]).replace(tzinfo=None)
     dayN: datetime = datetime.now().replace(tzinfo=None)
     timeline: list = [day for day in range((dayN - day0).days)]
 
     issues["created_at"] = issues["created_at"].fillna(day0)
     issues["closed_at"] = issues["closed_at"].fillna(dayN)
 
-    # intervals = get_intervals(issues=issues, commits=commits)
+    intervals: list = getIssueTimelineIntervals(day0, dayN, issues)
     # tree = build_tree(issues=issues, commits=commits, intervals=intervals)
 
     # first, last, days = get_timestamp()
