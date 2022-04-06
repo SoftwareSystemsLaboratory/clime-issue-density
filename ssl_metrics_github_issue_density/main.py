@@ -37,23 +37,14 @@ def getIssueTimelineIntervals(day0: datetime, dayN: datetime, issues: DataFrame)
     return intervals
 
 
-# def build_tree(*, issues, commits, intervals) -> IntervalTree:
-#     """builds interval tree
+def buildIntervalTree(issues: DataFrame, commits: DataFrame, intervals: list) -> IntervalTree:
+    tree: IntervalTree = IntervalTree()
 
-#     :param commits: DataFrame
-#     :param issues: DataFrame
-#     :param intervals: list
+    interval: tuple
+    for interval in intervals:
+        tree.addi(interval[0], interval[1] + 1, 1)
 
-#     :return tree: IntervalTree
-#     """
-
-#     tree = IntervalTree()
-
-#     # add all items to interval tree
-#     for interval in intervals:
-#         tree.addi(interval[0], interval[1] + 1, 1)
-
-#     return tree
+    return tree
 
 
 # def get_daily_kloc(commits):
@@ -97,7 +88,7 @@ def main():
     issues["closed_at"] = issues["closed_at"].fillna(dayN)
 
     intervals: list = getIssueTimelineIntervals(day0, dayN, issues)
-    # tree = build_tree(issues=issues, commits=commits, intervals=intervals)
+    intervalTree: IntervalTree = buildIntervalTree(issues, intervals)
 
     # first, last, days = get_timestamp()
 
