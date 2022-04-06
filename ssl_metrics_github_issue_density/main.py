@@ -1,4 +1,3 @@
-from argparse import ArgumentParser, Namespace
 from datetime import datetime
 
 import numpy as np
@@ -7,35 +6,7 @@ from dateutil.parser import parse
 from intervaltree import IntervalTree
 from pandas import DataFrame
 
-
-def getArgs():
-    parser: ArgumentParser = ArgumentParser(
-        prog="SSL Metrics Issue Density",
-        usage="Generate Issue Density metrics",
-    )
-    parser.add_argument(
-        "-c",
-        "--commits",
-        required=True,
-        type=open,
-        help="Commits JSON file",
-    )
-    parser.add_argument(
-        "-i",
-        "--issues",
-        required=True,
-        type=open,
-        help="Issues JSON file",
-    )
-    parser.add_argument(
-        "-o",
-        "--output",
-        help="output JSON file",
-        type=str,
-        required=True,
-    )
-    return parser.parse_args()
-
+from ssl_metrics_github_issue_density.args import getArgs
 
 def get_timestamp():
     """returns relevant timestamp information
