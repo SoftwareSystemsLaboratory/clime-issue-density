@@ -7,7 +7,7 @@ from dateutil.parser import parse as dateParse
 from intervaltree import IntervalTree
 from pandas import DataFrame
 
-from ssl_metrics_github_issue_density.args import getArgs
+from ssl_metrics_github_issue_density.args import mainArgs
 
 
 def getIssueTimelineIntervals(day0: datetime, issues: DataFrame) -> list:
@@ -77,7 +77,7 @@ def getDailyKLOC(commits: DataFrame, timeline: list) -> list:
 
 
 def main() -> None:
-    args: Namespace = getArgs()
+    args: Namespace = mainArgs()
 
     defectDensity: list = []
 
