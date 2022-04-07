@@ -2,7 +2,7 @@ from argparse import Namespace
 from datetime import datetime
 
 import numpy as np
-import pandas as pd
+import pandas
 from args import getArgs
 from dateutil.parser import parse
 from dateutil.parser import parse as dateParse
@@ -10,9 +10,7 @@ from intervaltree import IntervalTree
 from pandas import DataFrame
 
 
-def getIssueTimelineIntervals(
-    day0: datetime, dayN: datetime, issues: DataFrame
-) -> list:
+def getIssueTimelineIntervals(day0: datetime, issues: DataFrame) -> list:
     intervals = []
 
     foo: str
@@ -51,6 +49,16 @@ def buildIntervalTree(
     return tree
 
 
+def getDailyDefects(intervals: IntervalTree, timeline: list) -> list:
+    defects: list = []
+
+    day: int
+    for day in timeline:
+        defects.append(len(intervals[day]))
+
+    return defects
+
+
 def getDailyKLOC(commits: DataFrame, timeline: list) -> list:
     dailyKLOC: list = []
     previousKLOC: float = 0
@@ -68,23 +76,11 @@ def getDailyKLOC(commits: DataFrame, timeline: list) -> list:
     return dailyKLOC
 
 
-# def get_daily_defects(tree):
-#     """returns a list of number of defects per day"""
-
-#     first, last, days = get_timestamp()
-
-#     defects = []
-#     for day in days:
-#         defects.append(len(tree[day]))
-
-#     return defects
-
-
-def main():
+def main() -> None:
     args: Namespace = getArgs()
 
-    commits: DataFrame = pd.read_json(args.commits)
-    issues: DataFrame = pd.read_json(args.issues).T
+    commits: DataFrame = pandas.read_json(args.commits)
+    issues: DataFrame = pandas.read_json(args.issues).T
 
     day0: datetime = dateParse(issues["created_at"][0]).replace(tzinfo=None)
     dayN: datetime = datetime.now().replace(tzinfo=None)
@@ -96,19 +92,16 @@ def main():
     intervals: list = getIssueTimelineIntervals(day0, dayN, issues)
     intervalTree: IntervalTree = buildIntervalTree(issues, intervals)
 
-    # first, last, days = get_timestamp()
+    dailyDefects: list = getDailyDefects(intervalTree, timeline)
+    dailyKLOC: list = getDailyKLOC(commits, timeline)
+    defectDensity: list = [nd / k for nd, k in zip(dailyDefects, dailyKLOC)]
 
-    # kloc = get_daily_kloc(commits)
-    # defects = get_daily_defects(tree)
-    # ddensity = [nd / k for nd, k in zip(defects, kloc)]
+    data: dict = {
+        "days_since_0": timeline,
+        "defect_density": defectDensity,
+    }
 
-    # d = {
-    #     "days_since_0": days,
-    #     "defect_density": ddensity,
-    # }
-
-    # out = pd.DataFrame(data=d)
-    # out.to_json(args.output)
+    DataFrame(data).to_json(args.output)
 
 
 if __name__ == "__main__":
