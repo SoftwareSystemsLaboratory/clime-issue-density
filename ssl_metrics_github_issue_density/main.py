@@ -3,11 +3,11 @@ from datetime import datetime
 
 import numpy as np
 import pandas
-from args import getArgs
-from dateutil.parser import parse
 from dateutil.parser import parse as dateParse
 from intervaltree import IntervalTree
 from pandas import DataFrame
+
+from ssl_metrics_github_issue_density.args import getArgs
 
 
 def getIssueTimelineIntervals(day0: datetime, issues: DataFrame) -> list:
@@ -37,9 +37,7 @@ def getIssueTimelineIntervals(day0: datetime, issues: DataFrame) -> list:
     return intervals
 
 
-def buildIntervalTree(
-    issues: DataFrame, commits: DataFrame, intervals: list
-) -> IntervalTree:
+def buildIntervalTree(intervals: list) -> IntervalTree:
     tree: IntervalTree = IntervalTree()
 
     interval: tuple
@@ -65,7 +63,9 @@ def getDailyKLOC(commits: DataFrame, timeline: list) -> list:
 
     day: int
     for day in timeline:
-        klocSum: float = commits[commits["days_since_0"] == day]["lines_of_code"].sum() / 1000
+        klocSum: float = (
+            commits[commits["author_days_since_0"] == day]["lines_of_code"].sum() / 1000
+        )
 
         if klocSum is np.nan:
             klocSum = previousKLOC
@@ -79,7 +79,9 @@ def getDailyKLOC(commits: DataFrame, timeline: list) -> list:
 def main() -> None:
     args: Namespace = getArgs()
 
-    commits: DataFrame = pandas.read_json(args.commits)
+    defectDensity: list = []
+
+    commits: DataFrame = pandas.read_json(args.commits).T
     issues: DataFrame = pandas.read_json(args.issues).T
 
     day0: datetime = dateParse(issues["created_at"][0]).replace(tzinfo=None)
@@ -89,12 +91,18 @@ def main() -> None:
     issues["created_at"] = issues["created_at"].fillna(day0)
     issues["closed_at"] = issues["closed_at"].fillna(dayN)
 
-    intervals: list = getIssueTimelineIntervals(day0, dayN, issues)
-    intervalTree: IntervalTree = buildIntervalTree(issues, intervals)
+    intervals: list = getIssueTimelineIntervals(day0, issues)
+    intervalTree: IntervalTree = buildIntervalTree(intervals)
 
     dailyDefects: list = getDailyDefects(intervalTree, timeline)
     dailyKLOC: list = getDailyKLOC(commits, timeline)
-    defectDensity: list = [nd / k for nd, k in zip(dailyDefects, dailyKLOC)]
+
+    pair: tuple
+    for pair in zip(dailyDefects, dailyKLOC):
+        if pair[1] == 0:
+            defectDensity.append(0)
+        else:
+            defectDensity.append(pair[0] / pair[1])
 
     data: dict = {
         "days_since_0": timeline,
