@@ -69,7 +69,7 @@ setup(
     entry_points={
         "console_scripts": [
             "ssl-metrics-github-issue-density-compute = ssl_metrics_github_issue_density.main:main",
-            "ssl-metrics-github-issue-density-graph = ssl_metrics_github_issue_density.create_graph:main",
+            "ssl-metrics-github-issue-density-graph = ssl_metrics_github_issue_density.graph:main",
         ]
     },
 )
