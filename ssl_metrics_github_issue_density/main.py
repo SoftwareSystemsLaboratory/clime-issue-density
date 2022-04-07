@@ -3,14 +3,16 @@ from datetime import datetime
 
 import numpy as np
 import pandas as pd
+from args import getArgs
 from dateutil.parser import parse
+from dateutil.parser import parse as dateParse
 from intervaltree import IntervalTree
 from pandas import DataFrame
-from dateutil.parser import parse as dateParse
-from args import getArgs
 
 
-def getIssueTimelineIntervals(day0: datetime, dayN: datetime, issues: DataFrame)    -> list:
+def getIssueTimelineIntervals(
+    day0: datetime, dayN: datetime, issues: DataFrame
+) -> list:
     intervals = []
 
     foo: str
@@ -37,7 +39,9 @@ def getIssueTimelineIntervals(day0: datetime, dayN: datetime, issues: DataFrame)
     return intervals
 
 
-def buildIntervalTree(issues: DataFrame, commits: DataFrame, intervals: list) -> IntervalTree:
+def buildIntervalTree(
+    issues: DataFrame, commits: DataFrame, intervals: list
+) -> IntervalTree:
     tree: IntervalTree = IntervalTree()
 
     interval: tuple
@@ -47,19 +51,21 @@ def buildIntervalTree(issues: DataFrame, commits: DataFrame, intervals: list) ->
     return tree
 
 
-# def get_daily_kloc(commits):
-#     """returns a list of average kloc per day"""
+def getDailyKLOC(commits: DataFrame, timeline: list) -> list:
+    dailyKLOC: list = []
+    previousKLOC: float = 0
 
-#     first, last, days = get_timestamp()
+    day: int
+    for day in timeline:
+        klocSum: float = commits[commits["days_since_0"] == day]["kloc"].sum()
 
-#     daily_kloc = []
-#     prev = 0
-#     for day in days:
-#         avg_kloc = commits[commits["days_since_0"] == day]["kloc"].mean()
-#         daily_kloc.append(avg_kloc if not avg_kloc is np.nan else prev)
-#         prev = avg_kloc if not avg_kloc is np.nan else prev
+        if klocSum is np.nan:
+            klocSum = previousKLOC
 
-#     return daily_kloc
+        dailyKLOC.append(klocSum)
+        previousKLOC = klocSum
+
+    return dailyKLOC
 
 
 # def get_daily_defects(tree):
