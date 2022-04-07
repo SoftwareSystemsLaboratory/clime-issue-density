@@ -39,13 +39,14 @@ def plot(
 def main() -> None:
     args: Namespace = graphArgs()
 
-    df: DataFrame = pandas.read_json(args.input).T
+    df: DataFrame = pandas.read_json(args.input)
+
+    print(df.columns)
 
     data: list = []
     data.append(df["days_since_0"].tolist())
     data.append(df["defect_density"].tolist())
 
-    data.append(df[1])
     plot(
         x=data[0],
         y=data[1],

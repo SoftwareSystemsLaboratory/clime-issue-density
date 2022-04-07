@@ -64,20 +64,6 @@ def graphArgs() -> Namespace:
         default="issue_density.pdf",
     )
     parser.add_argument(
-        "-x",
-        help="Key of the x values to use for graphing. DEFAULT: defect_density",
-        type=str,
-        required=False,
-        default="defect_density",
-    )
-    parser.add_argument(
-        "-y",
-        help="Key of the y values to use for graphing. DEFAULT: days_since_0",
-        type=str,
-        required=False,
-        default="days_since_0",
-    )
-    parser.add_argument(
         "--type",
         help="Type of figure to plot. DEFAULT: line",
         type=str,
@@ -87,6 +73,20 @@ def graphArgs() -> Namespace:
     parser.add_argument(
         "--title",
         help='Title of the figure. DEFAULT: ""',
+        type=str,
+        required=False,
+        default="",
+    )
+    parser.add_argument(
+        "--x-label",
+        help='X axis label of the figure. DEFAULT: ""',
+        type=str,
+        required=False,
+        default="",
+    )
+    parser.add_argument(
+        "--y-label",
+        help='Y axis label of the figure. DEFAULT: ""',
         type=str,
         required=False,
         default="",
