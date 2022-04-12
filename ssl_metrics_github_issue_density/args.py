@@ -19,23 +19,26 @@ def mainArgs() -> Namespace:
     parser.add_argument(
         "-c",
         "--commits",
-        type=open,
         help="Commits JSON file. DEFAULT: ./commits_loc.json",
         default="commits_loc.json",
+        required=False,
+        type=str,
     )
     parser.add_argument(
         "-i",
         "--issues",
-        type=open,
         help="Issues JSON file. DEFAULT: ./github_issues.json",
         default="github_issues.json",
+        required=False,
+        type=str,
     )
     parser.add_argument(
         "-o",
         "--output",
         help="Output JSON file. DEFAULT: ./issue_density.json",
-        type=str,
         default="issue_density.json",
+        required=False,
+        type=str,
     )
 
     return parser.parse_args()
