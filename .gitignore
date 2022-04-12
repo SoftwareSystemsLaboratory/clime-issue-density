@@ -133,3 +133,6 @@ dmypy.json
 !.zenodo.json
 *.json
 *.png
+
+*.bash
+*.pdf

@@ -65,12 +65,11 @@ setup(
         "pandas>=1.3.3",
         "progress>=1.6",
         "python-dateutil>=2.8.2",
-        "scikit-learn>=1.0.1",
     ],
     entry_points={
         "console_scripts": [
             "ssl-metrics-github-issue-density-compute = ssl_metrics_github_issue_density.main:main",
-            "ssl-metrics-github-issue-density-graph = ssl_metrics_github_issue_density.create_graph:main",
+            "ssl-metrics-github-issue-density-graph = ssl_metrics_github_issue_density.graph:main",
         ]
     },
 )
