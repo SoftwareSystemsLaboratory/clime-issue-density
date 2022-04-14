@@ -63,11 +63,11 @@ def getDailyKLOC(commits: DataFrame, timeline: list) -> list:
 
     day: int
     for day in timeline:
-        klocSum: float = (
+        klocSum: np.float64 = (
             commits[commits["author_days_since_0"] == day]["lines_of_code"].mean() / 1000
         )
 
-        if klocSum is np.nan:
+        if type(klocSum) == float:
             klocSum = previousKLOC
 
         dailyKLOC.append(klocSum)
