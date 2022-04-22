@@ -34,31 +34,49 @@ You can install the tool via `pip` with either of the two following one-liners:
 `clime-issue-density-compute -h`
 
 ``` shell
+usage: CLIME Issue Density [-h] [-c COMMITS] [-i ISSUES] [-o OUTPUT] [-v]
+
+A tool to calculate the issue density of a repository
+
 options:
   -h, --help            show this help message and exit
   -c COMMITS, --commits COMMITS
-                        Commits JSON file
+                        Commits JSON file. DEFAULT: ./commits_loc.json
   -i ISSUES, --issues ISSUES
-                        Issues JSON file
+                        Issues JSON file. DEFAULT: ./github_issues.json
   -o OUTPUT, --output OUTPUT
-                        output JSON file
+                        Output JSON file. DEFAULT: ./issue_density.json
+  -v, --version         Display version of the tool
+
+Author(s): Nicholas M. Synovic, Matthew Hyatt, Sohini Thota, George K.
+Thiruvathukal
 ```
 
 `clime-issue-density-graph -h`
 
 ``` shell
+usage: CLIME Issue Density Grapher [-h] [-i INPUT] [-o OUTPUT] [--type TYPE]
+                                   [--title TITLE] [--x-label X_LABEL]
+                                   [--y-label Y_LABEL]
+                                   [--stylesheet STYLESHEET] [-v]
+
+A tool to graph the issue density of a repository
+
 options:
   -h, --help            show this help message and exit
   -i INPUT, --input INPUT
-                        The input data file that will be read to create the graphs
+                        JSON export from CLIME GitHub Issue Density Compute.
+                        DEFAULT: ./issue_density.json
   -o OUTPUT, --output OUTPUT
-                        The filename to output the bus factor graph to
-  -m MAXIMUM_DEGREE_POLYNOMIAL, --maximum-degree-polynomial MAXIMUM_DEGREE_POLYNOMIAL
-                        Estimated maximum degree of polynomial
-  -r REPOSITORY_NAME, --repository-name REPOSITORY_NAME
-                        Name of the repository that is being analyzed
-  --x-window-min X_WINDOW_MIN
-                        The smallest x value that will be plotted
-  --x-window-max X_WINDOW_MAX
-                        The largest x value that will be plotted
+                        Filename of the graph. DEFAULT: ./issue_density.pdf
+  --type TYPE           Type of figure to plot. DEFAULT: line
+  --title TITLE         Title of the figure. DEFAULT: ""
+  --x-label X_LABEL     X axis label of the figure. DEFAULT: ""
+  --y-label Y_LABEL     Y axis label of the figure. DEFAULT: ""
+  --stylesheet STYLESHEET
+                        Filepath of matplotlib stylesheet to use. DEFAULT: ""
+  -v, --version         Display version of the tool
+
+Author(s): Nicholas M. Synovic, Matthew Hyatt, Sohini Thota, George K.
+Thiruvathukal
 ```
