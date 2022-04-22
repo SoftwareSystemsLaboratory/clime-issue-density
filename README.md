@@ -1,6 +1,9 @@
 # CLIME Issue Density
 
->
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6478225.svg)](https://doi.org/10.5281/zenodo.6478225)
+[![Release Project](https://github.com/SoftwareSystemsLaboratory/clime-issue-density/actions/workflows/release.yml/badge.svg)](https://github.com/SoftwareSystemsLaboratory/clime-issue-density/actions/workflows/release.yml)
+
+> A tool to calculate the issue density of a Git repository by analyzing the issues of a project in it's issue tracker
 
 ## Table of Contents
 
