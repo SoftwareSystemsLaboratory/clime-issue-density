@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 import pandas
 from pandas import DataFrame
 
-from ssl_metrics_github_issue_density.args import graphArgs
+from clime_issue_density.args import graphArgs
+from clime_issue_density.version import version
 
 
 def plot(
@@ -38,6 +39,10 @@ def plot(
 
 def main() -> None:
     args: Namespace = graphArgs()
+
+    if args.version:
+        print(f"clime-issue-density-graph version {version()}")
+        quit(0)
 
     df: DataFrame = pandas.read_json(args.input)
 

@@ -7,8 +7,8 @@ from dateutil.parser import parse as dateParse
 from intervaltree import IntervalTree
 from pandas import DataFrame
 
-from ssl_metrics_github_issue_density.args import mainArgs
-
+from clime_issue_density.args import mainArgs
+from clime_issue_density.version import version
 
 def getIssueTimelineIntervals(day0: datetime, issues: DataFrame) -> list:
     intervals = []
@@ -78,6 +78,10 @@ def getDailyKLOC(commits: DataFrame, timeline: list) -> list:
 
 def main() -> None:
     args: Namespace = mainArgs()
+
+    if args.version:
+        print(f"clime-issue-density-compute version {version()}")
+        quit(0)
 
     defectDensity: list = []
 
