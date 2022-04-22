@@ -1,15 +1,15 @@
 from setuptools import setup
 
-from ssl_metrics_github_issue_density import version
+from clime_issue_density import version
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="ssl-metrics-github-issue-density",
-    packages=["ssl_metrics_github_issue_density"],
+    name="clime-issue-density",
+    packages=["clime_issue_density"],
     version=version.version(),
-    description="SSL Metrics - Defect density of a github repository. ",
+    description="CLIME - Issue density of a Git repository. ",
     author="Software and Systems Laboratory - Loyola University Chicago",
     author_email="ssl-metrics@ssl.luc.edu",
     license="BSD",
@@ -17,31 +17,52 @@ setup(
     long_description_content_type="text/markdown",
     url="https://ssl.cs.luc.edu/projects/metricsDashboard",
     project_urls={
-        "Bug Tracker": "https://github.com/SoftwareSystemsLaboratory/ssl-metrics-github-issue-density/issues",
-        "GitHub Repository": "https://github.com/SoftwareSystemsLaboratory/ssl-metrics-github-issue-density",
+        "Bug Tracker": "https://github.com/SoftwareSystemsLaboratory/clime-issue-density/issues",
+        "GitHub Repository": "https://github.com/SoftwareSystemsLaboratory/clime-issue-density",
     },
     keywords=[
+        "bugzilla",
         "bus factor",
+        "bus factor",
+        "cloc",
         "commits",
+        "commits",
+        "delta lines of code",
         "engineering",
         "git",
+        "git",
         "github",
+        "github",
+        "gitlab",
+        "installable",
         "issue density",
+        "issue density",
+        "issue spoilage",
+        "issues",
         "issues",
         "kloc",
-        "loyola",
+        "lines of code",
+        "longitudinal graphs",
         "loyola university chicago",
+        "loyola",
         "luc",
-        "mining",
         "metrics",
-        "repository",
+        "metrics",
+        "mining",
+        "productivity",
+        "python",
         "repository mining",
+        "repository",
         "simple",
-        "software",
+        "sloccount",
         "software engineering",
         "software metrics",
         "software systems laboratory",
-        "ssl"
+        "software",
+        "ssl",
+        "thousands of lines of code",
+        "tool",
+        "vcs"
     ],
     classifiers=[
         "Development Status :: 4 - Beta",
@@ -60,16 +81,16 @@ setup(
     ],
     python_requires=">=3.9",
     install_requires=[
-        "matplotlib>=3.4.3",
-        "numpy>=1.21.2",
-        "pandas>=1.3.3",
-        "progress>=1.6",
-        "python-dateutil>=2.8.2",
+        "intervaltree",
+        "numpy",
+        "matplotlib",
+        "pandas",
+        "python-dateutil",
     ],
     entry_points={
         "console_scripts": [
-            "ssl-metrics-github-issue-density-compute = ssl_metrics_github_issue_density.main:main",
-            "ssl-metrics-github-issue-density-graph = ssl_metrics_github_issue_density.graph:main",
+            "clime-issue-density-compute = clime_issue_density.main:main",
+            "clime-issue-density-graph = clime_issue_density.graph:main",
         ]
     },
 )
