@@ -50,6 +50,7 @@ def mainArgs() -> Namespace:
 
     return parser.parse_args()
 
+
 def graphArgs() -> Namespace:
     parser: ArgumentParser = ArgumentParser(
         prog=f"{name} Issue Density Grapher",

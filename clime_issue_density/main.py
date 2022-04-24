@@ -10,6 +10,7 @@ from pandas import DataFrame
 from clime_issue_density.args import mainArgs
 from clime_issue_density.version import version
 
+
 def getIssueTimelineIntervals(day0: datetime, issues: DataFrame) -> list:
     intervals = []
 
@@ -64,7 +65,8 @@ def getDailyKLOC(commits: DataFrame, timeline: list) -> list:
     day: int
     for day in timeline:
         klocSum: np.float64 = (
-            commits[commits["author_days_since_0"] == day]["lines_of_code"].mean() / 1000
+            commits[commits["author_days_since_0"] == day]["lines_of_code"].mean()
+            / 1000
         )
 
         if type(klocSum) == float:
