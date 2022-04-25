@@ -41,6 +41,13 @@ def mainArgs() -> Namespace:
         type=str,
     )
     parser.add_argument(
+        "-b",
+        "--bin",
+        help="Bin containing the number of days between computed issue density values. DEFAULT: 1",
+        type=int,
+        default=1,
+    )
+    parser.add_argument(
         "-v",
         "--version",
         help="Display version of the tool",
